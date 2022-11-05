@@ -14,6 +14,9 @@ public class Image extends Timestamped {
     private Long imageId;
 
     @Column(nullable = false)
+    private String imageName;
+
+    @Column(nullable = false)
     private String imageUrl;
 
     @ManyToOne

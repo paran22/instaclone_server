@@ -40,8 +40,8 @@ public class S3Uploader {
 
 
         HashMap<String, String> imgInfo = new HashMap<>();
-        imgInfo.put("fileName", uploadImageName);
-        imgInfo.put("img", uploadImageUrl);
+        imgInfo.put("name", uploadImageName);
+        imgInfo.put("url", uploadImageUrl);
         return imgInfo;
     }
 
