@@ -19,6 +19,8 @@ import java.util.UUID;
 public class S3Uploader {
 
     private final AmazonS3Client amazonS3Client;
+    public static final String IMAGE_NAME = "imageName";
+    public static final String IMAGE_URL = "imageUrl";
 
     @Value("${aws.s3.image.bucket}")
     public String bucket;
@@ -40,8 +42,8 @@ public class S3Uploader {
 
 
         HashMap<String, String> imgInfo = new HashMap<>();
-        imgInfo.put("name", uploadImageName);
-        imgInfo.put("url", uploadImageUrl);
+        imgInfo.put(IMAGE_NAME, uploadImageName);
+        imgInfo.put(IMAGE_URL, uploadImageUrl);
         return imgInfo;
     }
 
