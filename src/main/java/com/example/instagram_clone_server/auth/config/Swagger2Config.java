@@ -20,7 +20,7 @@ public class Swagger2Config {
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("Instagram Clone API")
-                        .description("Instagram Clon 프로젝트 API 명세서입니다.")
+                        .description("Instagram Clone 프로젝트 API 명세서입니다.")
                         .version("v0.0.1"));
     }
 }

@@ -6,6 +6,8 @@ import com.example.instagram_clone_server.domain.image.model.Image;
 import com.example.instagram_clone_server.domain.image.repository.ImageRepository;
 import com.example.instagram_clone_server.domain.image.service.S3Uploader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.instagram_clone_server.domain.board.controller.BoardController.BoardRequest;
 import static com.example.instagram_clone_server.domain.board.controller.BoardController.BoardResponse;
@@ -32,15 +35,23 @@ public class BoardService {
 
         List<MultipartFile> imageFiles = boardRequest.getImages();
 
-        List<HashMap<String, String>> convertedImages = new ArrayList<>();
-
         List<Image> images = new ArrayList<>();
         for (MultipartFile imageFile : imageFiles) {
-            HashMap<String, String> image = s3Uploader.upload(imageFile, dirName);
-            images.add(Image.of(image, savedBoard));
+            HashMap<String, String> convertedImg = s3Uploader.upload(imageFile, dirName);
+            Image image = Image.of(convertedImg, savedBoard);
+            images.add(image);
+            List<Image> imageList = savedBoard.getImages();
+            imageList.add(image);
         }
+
         List<Image> savedImages = imageRepository.saveAll(images);
 
         return BoardResponse.of(savedBoard, savedImages);
+    }
+
+    public List<BoardResponse> getBoards(Long lastId, int size) {
+        PageRequest pageRequest = PageRequest.of(0, size);
+        Page<Board> boards = boardRepository.findByBoardIdLessThanEqualOrderByCreatedAt(lastId, pageRequest);
+        return boards.stream().map((board) -> BoardResponse.of(board, board.getImages())).collect(Collectors.toList());
     }
 }
