@@ -1,6 +1,5 @@
 package com.example.instagram_clone_server.domain.board.service;
 
-import com.example.instagram_clone_server.domain.board.controller.BoardController;
 import com.example.instagram_clone_server.domain.board.model.Board;
 import com.example.instagram_clone_server.domain.board.repository.BoardRepository;
 import com.example.instagram_clone_server.domain.image.model.Image;
@@ -14,9 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.example.instagram_clone_server.domain.board.controller.BoardController.*;
+import static com.example.instagram_clone_server.domain.board.controller.BoardController.BoardRequest;
+import static com.example.instagram_clone_server.domain.board.controller.BoardController.BoardResponse;
 
 @Service
 @RequiredArgsConstructor
