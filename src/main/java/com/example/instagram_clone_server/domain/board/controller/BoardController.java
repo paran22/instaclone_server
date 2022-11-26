@@ -33,6 +33,12 @@ public class BoardController {
         return boardService.getBoards(lastId, size);
     }
 
+    @Operation(summary = "get board")
+    @GetMapping("/{boardId}")
+    public BoardResponse getBoard(@PathVariable Long boardId) {
+        return boardService.getBoard(boardId);
+    }
+
     @Getter
     @Setter
     public static class BoardRequest {
@@ -49,11 +55,11 @@ public class BoardController {
         private String content;
         private List<String> images;
 
-        public static BoardResponse of(Board board, List<Image> images) {
+        public static BoardResponse of(Board board) {
             return BoardResponse.builder()
                     .id(board.getBoardId())
                     .content(board.getContent())
-                    .images(images.stream().map((Image::getImageUrl)).collect(Collectors.toList()))
+                    .images(board.getImages().stream().map((Image::getImageUrl)).collect(Collectors.toList()))
                     .build();
         }
     }

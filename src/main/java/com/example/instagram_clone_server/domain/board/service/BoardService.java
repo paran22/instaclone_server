@@ -5,6 +5,8 @@ import com.example.instagram_clone_server.domain.board.repository.BoardRepositor
 import com.example.instagram_clone_server.domain.image.model.Image;
 import com.example.instagram_clone_server.domain.image.repository.ImageRepository;
 import com.example.instagram_clone_server.domain.image.service.S3Uploader;
+import com.example.instagram_clone_server.exception.CustomException;
+import com.example.instagram_clone_server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,15 +45,22 @@ public class BoardService {
             List<Image> imageList = savedBoard.getImages();
             imageList.add(image);
         }
+        imageRepository.saveAll(images);
 
-        List<Image> savedImages = imageRepository.saveAll(images);
-
-        return BoardResponse.of(savedBoard, savedImages);
+        return BoardResponse.of(savedBoard);
     }
 
     public List<BoardResponse> getBoards(Long lastId, int size) {
         PageRequest pageRequest = PageRequest.of(0, size);
         Page<Board> boards = boardRepository.findByBoardIdLessThanEqualOrderByCreatedAt(lastId, pageRequest);
-        return boards.stream().map((board) -> BoardResponse.of(board, board.getImages())).collect(Collectors.toList());
+        return boards.stream().map(BoardResponse::of).collect(Collectors.toList());
+    }
+
+    public BoardResponse getBoard(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
+
+        return BoardResponse.of(board);
+
+
     }
 }
