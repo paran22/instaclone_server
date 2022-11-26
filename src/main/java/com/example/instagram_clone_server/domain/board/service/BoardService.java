@@ -52,7 +52,7 @@ public class BoardService {
 
     public List<BoardResponse> getBoards(Long lastId, int size) {
         PageRequest pageRequest = PageRequest.of(0, size);
-        Page<Board> boards = boardRepository.findByBoardIdLessThanEqualOrderByCreatedAt(lastId, pageRequest);
+        Page<Board> boards = boardRepository.findByBoardIdGreaterThanEqualOrderByCreatedAt(lastId, pageRequest);
         return boards.stream().map(BoardResponse::of).collect(Collectors.toList());
     }
 
