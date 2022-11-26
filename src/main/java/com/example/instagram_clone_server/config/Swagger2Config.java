@@ -1,4 +1,4 @@
-package com.example.instagram_clone_server.auth.config;
+package com.example.instagram_clone_server.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

@@ -1,4 +1,4 @@
-package com.example.instagram_clone_server.auth.config;
+package com.example.instagram_clone_server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
