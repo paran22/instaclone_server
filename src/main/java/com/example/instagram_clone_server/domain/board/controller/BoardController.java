@@ -46,6 +46,12 @@ public class BoardController {
         return ApiResponse.success(boardService.updateBoard(boardId, boardRequest));
     }
 
+    @Operation(summary = "delete board")
+    @DeleteMapping("/{boardId}")
+    public ApiResponse<Long> deleteBoard(@PathVariable Long boardId) {
+        return ApiResponse.success(boardService.deleteBoard(boardId));
+    }
+
     @Getter
     @Setter
     public static class BoardRequest {

@@ -64,4 +64,12 @@ public class BoardService {
 
         imageService.saveImages(images, board);
     }
+
+    @Transactional
+    public Long deleteBoard(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
+        imageService.deleteImages(board.getImages());
+        boardRepository.delete(board);
+        return board.getBoardId();
+    }
 }
