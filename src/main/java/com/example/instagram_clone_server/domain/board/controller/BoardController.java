@@ -39,6 +39,12 @@ public class BoardController {
         return boardService.getBoard(boardId);
     }
 
+    @Operation(summary = "update board")
+    @PutMapping("/{boardId}")
+    public BoardResponse updateBoard(@PathVariable Long boardId, BoardRequest boardRequest) throws IOException {
+        return boardService.updateBoard(boardId, boardRequest);
+    }
+
     @Getter
     @Setter
     public static class BoardRequest {

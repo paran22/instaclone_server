@@ -33,4 +33,13 @@ public class Board extends Timestamped {
                 .images(new ArrayList<>())
                 .build();
     }
+
+
+    public void addImage(Image image) {
+        this.images.add(image);
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }
