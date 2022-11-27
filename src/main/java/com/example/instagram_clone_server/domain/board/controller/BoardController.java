@@ -1,5 +1,6 @@
 package com.example.instagram_clone_server.domain.board.controller;
 
+import com.example.instagram_clone_server.common.ApiResponse;
 import com.example.instagram_clone_server.domain.board.model.Board;
 import com.example.instagram_clone_server.domain.board.service.BoardService;
 import com.example.instagram_clone_server.domain.image.model.Image;
@@ -23,26 +24,26 @@ public class BoardController {
 
     @Operation(summary = "post boards")
     @PostMapping
-    public BoardResponse saveBoard(BoardRequest boardRequest) throws IOException {
-        return boardService.saveBoard(boardRequest);
+    public ApiResponse<BoardResponse> saveBoard(BoardRequest boardRequest) throws IOException {
+        return ApiResponse.success(boardService.saveBoard(boardRequest));
     }
 
     @Operation(summary = "get boards")
     @GetMapping
-    public List<BoardResponse> getBoards(@RequestParam Long lastId, @RequestParam int size) {
-        return boardService.getBoards(lastId, size);
+    public ApiResponse<List<BoardResponse>> getBoards(@RequestParam Long lastId, @RequestParam int size) {
+        return ApiResponse.success(boardService.getBoards(lastId, size));
     }
 
     @Operation(summary = "get board")
     @GetMapping("/{boardId}")
-    public BoardResponse getBoard(@PathVariable Long boardId) {
-        return boardService.getBoard(boardId);
+    public ApiResponse<BoardResponse> getBoard(@PathVariable Long boardId) {
+        return ApiResponse.success(boardService.getBoard(boardId));
     }
 
     @Operation(summary = "update board")
     @PutMapping("/{boardId}")
-    public BoardResponse updateBoard(@PathVariable Long boardId, BoardRequest boardRequest) throws IOException {
-        return boardService.updateBoard(boardId, boardRequest);
+    public ApiResponse<BoardResponse> updateBoard(@PathVariable Long boardId, BoardRequest boardRequest) throws IOException {
+        return ApiResponse.success(boardService.updateBoard(boardId, boardRequest));
     }
 
     @Getter
