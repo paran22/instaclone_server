@@ -24,19 +24,10 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private String content;
 
-    @OneToMany(mappedBy = "board")
-    private List<Image> images = new ArrayList<>();
-
     public static Board of(String content) {
         return Board.builder()
                 .content(content)
-                .images(new ArrayList<>())
                 .build();
-    }
-
-
-    public void addImage(Image image) {
-        this.images.add(image);
     }
 
     public void updateContent(String content) {

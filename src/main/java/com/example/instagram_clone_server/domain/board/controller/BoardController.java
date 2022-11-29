@@ -4,6 +4,7 @@ import com.example.instagram_clone_server.common.ApiResponse;
 import com.example.instagram_clone_server.domain.board.model.Board;
 import com.example.instagram_clone_server.domain.board.service.BoardService;
 import com.example.instagram_clone_server.domain.image.model.Image;
+import com.example.instagram_clone_server.domain.image.model.Images;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.*;
@@ -66,13 +67,13 @@ public class BoardController {
     public static class BoardResponse {
         private Long id;
         private String content;
-        private List<String> images;
+        private List<String> imageUrls;
 
-        public static BoardResponse of(Board board) {
+        public static BoardResponse of(Board board, Images images) {
             return BoardResponse.builder()
                     .id(board.getBoardId())
                     .content(board.getContent())
-                    .images(board.getImages().stream().map((Image::getImageUrl)).collect(Collectors.toList()))
+                    .imageUrls(images.toImageUrls())
                     .build();
         }
     }
