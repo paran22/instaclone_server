@@ -3,6 +3,8 @@ package com.example.instagram_clone_server.domain.board.controller;
 import com.example.instagram_clone_server.common.ApiResponse;
 import com.example.instagram_clone_server.domain.board.model.Board;
 import com.example.instagram_clone_server.domain.board.service.BoardService;
+import com.example.instagram_clone_server.domain.comment.controller.CommentController;
+import com.example.instagram_clone_server.domain.comment.model.Comments;
 import com.example.instagram_clone_server.domain.image.model.Image;
 import com.example.instagram_clone_server.domain.image.model.Images;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,8 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.instagram_clone_server.domain.comment.controller.CommentController.*;
 
 @Tag(name = "boards", description = "게시글 API")
 @RestController
@@ -68,12 +73,23 @@ public class BoardController {
         private Long id;
         private String content;
         private List<String> imageUrls;
+        private List<CommentResponse> comments;
 
         public static BoardResponse of(Board board, Images images) {
             return BoardResponse.builder()
                     .id(board.getBoardId())
                     .content(board.getContent())
                     .imageUrls(images.toImageUrls())
+                    .comments(new ArrayList<>())
+                    .build();
+        }
+
+        public static BoardResponse of(Board board, Images images, Comments comments) {
+            return BoardResponse.builder()
+                    .id(board.getBoardId())
+                    .content(board.getContent())
+                    .imageUrls(images.toImageUrls())
+                    .comments(comments.getComments().stream().map(CommentResponse::of).collect(Collectors.toList()))
                     .build();
         }
     }

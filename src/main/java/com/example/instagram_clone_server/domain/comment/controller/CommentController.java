@@ -15,8 +15,15 @@ public class CommentController {
 
     @Operation(summary = "post comment")
     @PostMapping("/{boardId}/comments")
-    public ApiResponse<CommentResponse> saveComment(@PathVariable Long boardId, @RequestBody String commentContent) {
-        return ApiResponse.success(commentService.saveComment(boardId, commentContent));
+    public ApiResponse<CommentResponse> saveComment(@PathVariable Long boardId, @RequestBody CommentRequest commentRequest) {
+        return ApiResponse.success(commentService.saveComment(boardId, commentRequest));
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CommentRequest {
+        private String content;
     }
 
     @Getter
@@ -28,10 +35,10 @@ public class CommentController {
         private String content;
 
         public static CommentController.CommentResponse of(Comment comment) {
-            return CommentResponse.builder().
-                    id(comment.getCommentId())
-                    .content(comment.getContent()).
-                    build();
+            return CommentResponse.builder()
+                    .id(comment.getCommentId())
+                    .content(comment.getContent())
+                    .build();
         }
     }
 }
