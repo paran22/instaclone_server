@@ -40,9 +40,9 @@ public class BoardService {
     public List<BoardResponse> getBoards(Long lastId, int size) {
         PageRequest pageRequest = PageRequest.of(0, size);
         Page<Board> boards = boardRepository.findByBoardIdGreaterThanEqualOrderByCreatedAt(lastId, pageRequest);
-        return boards.stream().map((board -> {
-            return BoardResponse.of(board, imageService.getImages(board));
-        })).collect(Collectors.toList());
+        return boards.stream().map((board ->
+                BoardResponse.of(board, imageService.getImages(board))
+        )).collect(Collectors.toList());
     }
 
     public BoardResponse getBoard(Long boardId) {
@@ -68,7 +68,7 @@ public class BoardService {
         return board.getBoardId();
     }
 
-    private Board findBoardById(Long boardId) {
+    public Board findBoardById(Long boardId) {
         return boardRepository.findById(boardId).orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
     }
 }
