@@ -54,8 +54,9 @@ public class BoardController {
 
     @Operation(summary = "delete board")
     @DeleteMapping("/{boardId}")
-    public ApiResponse<Long> deleteBoard(@PathVariable Long boardId) {
-        return ApiResponse.success(boardService.deleteBoard(boardId));
+    public ApiResponse<?> deleteBoard(@PathVariable Long boardId) {
+        boardService.deleteBoard(boardId);
+        return ApiResponse.success();
     }
 
     @Getter

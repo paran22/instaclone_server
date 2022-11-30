@@ -2,8 +2,6 @@ package com.example.instagram_clone_server.domain.comment.service;
 
 import com.example.instagram_clone_server.domain.board.model.Board;
 import com.example.instagram_clone_server.domain.board.repository.BoardRepository;
-import com.example.instagram_clone_server.domain.board.service.BoardService;
-import com.example.instagram_clone_server.domain.comment.controller.CommentController;
 import com.example.instagram_clone_server.domain.comment.controller.CommentController.CommentRequest;
 import com.example.instagram_clone_server.domain.comment.model.Comment;
 import com.example.instagram_clone_server.domain.comment.model.Comments;
@@ -12,6 +10,8 @@ import com.example.instagram_clone_server.exception.CustomException;
 import com.example.instagram_clone_server.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 import static com.example.instagram_clone_server.domain.comment.controller.CommentController.CommentResponse;
 
@@ -31,4 +31,9 @@ public class CommentService {
         return Comments.of(commentRepository.findAllByBoard(board));
     }
 
+    @Transactional
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
+        commentRepository.delete(comment);
+    }
 }

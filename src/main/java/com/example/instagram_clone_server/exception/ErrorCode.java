@@ -9,7 +9,8 @@ public enum ErrorCode {
     //400 Bad Request
 
     //404 Not Found
-    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다.");
+    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."),
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String errorMessage;

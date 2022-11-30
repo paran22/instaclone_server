@@ -15,7 +15,11 @@ public class ApiResponse<T> {
     private String errorMessage;
 
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<T>(data, HttpStatus.OK, "");
+        return new ApiResponse<>(data, HttpStatus.OK, "");
+    }
+
+    public static <T> ApiResponse<T> success() {
+        return new ApiResponse<>(null, HttpStatus.OK, "");
     }
 
     public static <T> ApiResponse<T> failure(ErrorCode errorCode) {

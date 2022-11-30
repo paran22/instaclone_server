@@ -67,11 +67,10 @@ public class BoardService {
     }
 
     @Transactional
-    public Long deleteBoard(Long boardId) {
+    public void deleteBoard(Long boardId) {
         Board board = findBoardById(boardId);
         imageService.deleteImages(board);
         boardRepository.delete(board);
-        return board.getBoardId();
     }
 
     private Board findBoardById(Long boardId) {
