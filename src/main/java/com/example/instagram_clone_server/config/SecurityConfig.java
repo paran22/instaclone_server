@@ -5,12 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.cors.CorsUtils;
 
 @Configuration
-@EnableWebSecurity // 스프링 Security 지원을 가능하게 함
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Bean
@@ -21,14 +21,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
 
-        http.authorizeRequests()
-              .antMatchers("/**").permitAll()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .anyRequest().permitAll()
-                .and()
-                .cors()
-                .and()
-                .formLogin().disable();
+        http.csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests().antMatchers("/api/users/signup/**", "/api/users/valid/**").permitAll();
+        http.authorizeRequests().anyRequest().authenticated();
 
 // [로그아웃 기능]
         http.logout()
