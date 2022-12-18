@@ -6,6 +6,7 @@ import com.example.instagram_clone_server.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "users", description = "회원 API")
@@ -21,16 +22,57 @@ public class UserController {
         return ApiResponse.success(userService.signUp(signUpRequest));
     }
 
-    @Operation(summary = "valid email and username")
+    @Operation(summary = "valid phoneNumber/email and username")
     @GetMapping("/valid")
     public ApiResponse<UserValidCheckResponse> validateEmail(@ModelAttribute UserValidCheckRequest validCheckRequest) {
         return ApiResponse.success(userService.validate(validCheckRequest));
     }
 
+    @Operation(summary = "login")
+    @PostMapping("/login")
+    public ApiResponse<TokenResponseDto> login(@RequestBody LoginRequest loginRequest) {
+        return ApiResponse.success(userService.login(loginRequest));
+    }
+
+    @Operation(summary = "reissue token")
+    @PostMapping("/reissue")
+    public ApiResponse<TokenResponseDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) {
+        return ApiResponse.success(userService.reissue(tokenRequestDto));
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class TokenResponseDto {
+        private String grantType;
+        private String accessToken;
+        private String refreshToken;
+        private Long accessTokenExpiresIn;
+    }
+
+    @Setter
+    @Getter
+    public static class TokenRequestDto {
+        private String accessToken;
+        private String refreshToken;
+    }
+
+    @Getter
+    @Setter
+    public static class LoginRequest {
+        private String id;
+        private String password;
+
+        public UsernamePasswordAuthenticationToken toAuthentication() {
+            return new UsernamePasswordAuthenticationToken(id, password);
+        }
+    }
+
     @Getter
     @Setter
     public static class UserSignUpRequest {
-        private String email;
+        private String phoneNumEmail;
         private String name;
         private String userName;
         private String password;
@@ -44,7 +86,7 @@ public class UserController {
     @Setter
     @AllArgsConstructor
     public static class UserValidCheckRequest {
-        private String email;
+        private String phoneNumOrEmail;
         private String userName;
     }
 

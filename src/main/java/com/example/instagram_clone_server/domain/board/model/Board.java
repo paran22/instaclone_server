@@ -1,5 +1,6 @@
 package com.example.instagram_clone_server.domain.board.model;
 
+import com.example.instagram_clone_server.domain.comment.model.Comment;
 import com.example.instagram_clone_server.domain.common.model.Timestamped;
 import com.example.instagram_clone_server.domain.image.model.Image;
 import lombok.AllArgsConstructor;

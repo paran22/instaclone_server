@@ -1,7 +1,6 @@
 package com.example.instagram_clone_server.domain.user.model;
 
 import com.example.instagram_clone_server.domain.common.model.Timestamped;
-import com.example.instagram_clone_server.domain.user.controller.UserController;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +21,7 @@ public class User extends Timestamped {
     private Long userId;
 
     @Column(nullable = false)
-    private String email;
+    private String phoneNumEmail;
 
     @Column(nullable = false)
     private String name;
@@ -42,9 +41,11 @@ public class User extends Timestamped {
     @Column(nullable = true)
     private String userImage;
 
+    private String refreshToken;
+
     public static User of(UserSignUpRequest signUpRequest) {
         return User.builder()
-                .email(signUpRequest.getEmail())
+                .phoneNumEmail(signUpRequest.getPhoneNumEmail())
                 .name(signUpRequest.getName())
                 .userName(signUpRequest.getUserName())
                 .password(signUpRequest.getPassword())
@@ -52,5 +53,9 @@ public class User extends Timestamped {
                 .link("")
                 .userImage("")
                 .build();
+    }
+
+    public void updateRefreshToken(String newToken) {
+        this.refreshToken = newToken;
     }
 }

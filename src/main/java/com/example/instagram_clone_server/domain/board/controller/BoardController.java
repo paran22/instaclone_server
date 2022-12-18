@@ -4,6 +4,7 @@ import com.example.instagram_clone_server.common.ApiResponse;
 import com.example.instagram_clone_server.domain.board.model.Board;
 import com.example.instagram_clone_server.domain.board.service.BoardService;
 import com.example.instagram_clone_server.domain.comment.controller.CommentController;
+import com.example.instagram_clone_server.domain.comment.model.Comment;
 import com.example.instagram_clone_server.domain.comment.model.Comments;
 import com.example.instagram_clone_server.domain.image.model.Image;
 import com.example.instagram_clone_server.domain.image.model.Images;
